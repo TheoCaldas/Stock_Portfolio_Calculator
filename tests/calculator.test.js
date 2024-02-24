@@ -1,4 +1,4 @@
-const foo = require('./foo')
+import { foo } from "../public/calculator.js"
 
 describe('foo', () => {
     it('should return false if negative', () => {

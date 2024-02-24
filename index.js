@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+app.use(express.static('public', {root: __dirname}));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.sendFile('views/home.html', {root: __dirname })
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 });
