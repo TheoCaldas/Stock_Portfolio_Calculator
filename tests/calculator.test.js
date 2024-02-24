@@ -1,4 +1,5 @@
 import { foo } from "../public/calculator.js"
+import { describe, it, expect } from "vitest";
 
 describe('foo', () => {
     it('should return false if negative', () => {

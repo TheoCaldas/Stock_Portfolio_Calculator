@@ -1,4 +1,4 @@
-import { foo } from './calculator.js'
+import { foo } from '../calculator.js'
 
 onload = () => {
     console.log("Hello World!");
