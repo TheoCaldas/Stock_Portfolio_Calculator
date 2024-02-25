@@ -1,8 +1,3 @@
-export function foo(a){
-    return a > 0;
-};
-
-
 export async function requestStock(ticker){
     const baseURL = 'https://query1.finance.yahoo.com/v8/finance/chart/';
     const req = baseURL + ticker

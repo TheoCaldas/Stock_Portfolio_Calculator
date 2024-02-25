@@ -1,6 +1,5 @@
-import { foo } from '../calculator.js'
+import { requestStock } from '../calculator.js'
 
 onload = () => {
-    console.log("Hello World!");
-    console.log(foo(5));
+
 }
