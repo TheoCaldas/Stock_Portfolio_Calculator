@@ -17,7 +17,7 @@ export function validatePurchaseInput(ticker, shares, pricePerShare){
     if (pricePerShare == '') errors.pricePerShare = true;
 
     const sharesFormat = /^[1-9]\d*$/;
-    const pricePerShareFormat = /^\d{1,3}(,\d{3})*(\.\d{2})$/;
+    const pricePerShareFormat = /^\d+\.\d{2}$/;
     if (!sharesFormat.test(shares)) errors.shares = true;
     if (!pricePerShareFormat.test(pricePerShare)) errors.pricePerShare = true;
 

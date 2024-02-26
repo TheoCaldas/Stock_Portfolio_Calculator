@@ -1,3 +1,4 @@
+/*  A stock abstraction of the response from Yahoo Finance API. */
 export class Stock {
     constructor(ticker, currency, regularMarketPrice, regularMarketTime) {
       this.ticker = ticker;

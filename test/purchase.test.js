@@ -3,11 +3,11 @@ import { describe, it, expect } from "vitest";
 
 describe('validatePurchaseInput', () => {
     it('should return undefined if all entries are correct', () => {
-        expect(validatePurchaseInput("PETR4.SA", "10", "1,040,157.96")).toBeUndefined();
+        expect(validatePurchaseInput("PETR4.SA", "10", "1040157.96")).toBeUndefined();
     });
     //TICKER
     it('should return error if ticker is empty', () => {
-        const errors = validatePurchaseInput("", "10", "1,040,157.96");
+        const errors = validatePurchaseInput("", "10", "1040157.96");
         expect(errors).toBeDefined();
         expect(errors.ticker).toBeTruthy();
         expect(errors.shares).toBeFalsy();
@@ -15,28 +15,28 @@ describe('validatePurchaseInput', () => {
     });
     //SHARES
     it('should return error if shares is empty', () => {
-        const errors = validatePurchaseInput("PETR4.SA", "", "1,040,157.96");
+        const errors = validatePurchaseInput("PETR4.SA", "", "1040157.96");
         expect(errors).toBeDefined();
         expect(errors.ticker).toBeFalsy();
         expect(errors.shares).toBeTruthy();
         expect(errors.pricePerShare).toBeFalsy();
     });
     it('should return error if shares is not an integer', () => {
-        const errors = validatePurchaseInput("PETR4.SA", "asefa1.1.24.1 sef ", "1,040,157.96");
+        const errors = validatePurchaseInput("PETR4.SA", "asefa1.1.24.1 sef ", "1040157.96");
         expect(errors).toBeDefined();
         expect(errors.ticker).toBeFalsy();
         expect(errors.shares).toBeTruthy();
         expect(errors.pricePerShare).toBeFalsy();
     });
     it('should return error if shares is not an integer', () => {
-        const errors = validatePurchaseInput("PETR4.SA", "1.042", "1,040,157.96");
+        const errors = validatePurchaseInput("PETR4.SA", "1.042", "1040157.96");
         expect(errors).toBeDefined();
         expect(errors.ticker).toBeFalsy();
         expect(errors.shares).toBeTruthy();
         expect(errors.pricePerShare).toBeFalsy();
     });
     it('should return error if shares is a negative number', () => {
-        const errors = validatePurchaseInput("PETR4.SA", "-123", "1,040,157.96");
+        const errors = validatePurchaseInput("PETR4.SA", "-123", "1040157.96");
         expect(errors).toBeDefined();
         expect(errors.ticker).toBeFalsy();
         expect(errors.shares).toBeTruthy();
@@ -79,7 +79,7 @@ describe('validatePurchaseInput', () => {
         expect(errors.pricePerShare).toBeTruthy();
     });
     it('should return error if pricePerShare is not a decimal number', () => {
-        const errors = validatePurchaseInput("PETR4.SA", "10", "-1,140.10");
+        const errors = validatePurchaseInput("PETR4.SA", "10", "-1140.10");
         expect(errors).toBeDefined();
         expect(errors.ticker).toBeFalsy();
         expect(errors.shares).toBeFalsy();
