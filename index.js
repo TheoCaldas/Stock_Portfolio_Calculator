@@ -24,6 +24,10 @@ app.get('/', async (req, res) => {
   }
 });
 
+app.get('/purchase', async (req, res) => {
+  res.sendFile(__dirname + '/public/view/purchase.html')
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
