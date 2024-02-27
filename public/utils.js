@@ -1,31 +1,31 @@
-/*  Computes new stock value based on market price and user shares. 
-    Returns the difference between the new value and the stock position. 
+/*  Computes position value based on market price and user shares. 
+    Returns the difference between computed position and cost. 
     Inputs and outputs are string values. */
-export function computeStockReturn(position, shares, marketPrice){
-    const _position = parseFloat(position);
+export function computeProfit(cost, shares, marketPrice){
+    const _cost = parseFloat(cost);
     const _shares = parseFloat(shares);
     const _marketPrice = parseFloat(marketPrice);
-    return plus(((_shares * _marketPrice) - _position).toFixed(2));
+    return plus(((_shares * _marketPrice) - _cost).toFixed(2));
 };
     
-/*  Returns computed new stock value based on market price and user shares.  
+/*  Returns computed position value based on market price and user shares.  
     Inputs and outputs are string values. */
-export function computeCurrentValue(shares, marketPrice){
+export function computePosition(shares, marketPrice){
     const _shares = parseFloat(shares);
     const _marketPrice = parseFloat(marketPrice);
     return (_shares * _marketPrice).toFixed(2);
 };
 
-/*  Returns computed profit percentage based on old and new stock values.  
+/*  Returns computed profit percentage based on cost and position values.  
     Inputs and outputs are string values. */
-export function computeProfitability(position, stockValue){
+export function computeProfitability(cost, position){
+    const _cost = parseFloat(cost);
     const _position = parseFloat(position);
-    const _stockValue = parseFloat(stockValue);
-    if (_position == 0 || _stockValue == 0) return "0.00";
-    if (_position < _stockValue)
-        return plus(((_stockValue / _position) * 1.0).toFixed(2)).concat("%");
+    if (_cost == 0 || _position == 0) return "0.00";
+    if (_cost < _position)
+        return plus(((_position / _cost) * 1.0).toFixed(2)).concat("%");
     else
-        return plus(((_position / _stockValue ) * -1.0).toFixed(2)).concat("%");
+        return plus(((_cost / _position) * -1.0).toFixed(2)).concat("%");
 };
 
 /*  Adds + sign if number is positive.  
@@ -34,6 +34,8 @@ function plus(numberString){
     return (parseFloat(numberString) > 0.0) ? "+".concat(numberString) : numberString;
 };
 
+/*  Formats decimal number as in '1.000.000,00'.
+    Inputs and outputs are string values. */
 export function formatNumber(number) {
     const [integerPart, decimalPart] = number.split('.');
     const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');

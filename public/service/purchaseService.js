@@ -3,7 +3,7 @@
     Catches http erros. */
 export async function postPurchase(reqData) {
     try {  
-        const res = await fetch("/buy", 
+        const res = await fetch("/user/stocks", 
         {
             method: "POST",
             headers: {"Content-Type": "application/json"},

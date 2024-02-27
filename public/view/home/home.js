@@ -1,5 +1,5 @@
 import { fetchStocks, fetchUserStocks } from '../../service/stockService.js';
-import { computeCurrentValue, computeProfitability, computeStockReturn, formatNumber } from '../../utils.js';
+import { computePosition, computeProfitability, computeProfit, formatNumber } from '../../utils.js';
 
 var stocksView = {};
 var userStocks = [];
@@ -16,7 +16,7 @@ function fetchData(){
         stocks.forEach(stock => {
             stocksView[stock.ticker] = {
                 "shares": stock.shares, 
-                "position": stock.position
+                "cost": stock.cost
             };
             userStocks.push(stock.ticker);
         });
@@ -42,14 +42,14 @@ function updateTable(){
     userStocks.forEach(ticker => {
         const stock = stocksView[ticker];
         const price = (stock.price || "0.00").toString();
-        const stockReturn = computeStockReturn(stock.position, stock.shares, price);
-        const stockValue = computeCurrentValue(stock.shares, price);
-        const profitability = computeProfitability(stock.position, stockValue);
+        const stockReturn = computeProfit(stock.cost, stock.shares, price);
+        const stockValue = computePosition(stock.shares, price);
+        const profitability = computeProfitability(stock.cost, stockValue);
         table.innerHTML += `
             <tr>
                 <td>${ticker}</td>
                 <td>${stock.shares}</td> 
-                <td>${formatNumber(stock.position)}</td>
+                <td>${formatNumber(stock.cost)}</td>
                 <td>${formatNumber(price)}</td>
                 <td>${formatNumber(stockValue)}</td>
                 <td>${formatNumber(stockReturn)}</td>
@@ -59,7 +59,7 @@ function updateTable(){
     });
 };
 
-/*  Updates total position with user stocks */
+/*  Updates total cost and position with user stocks */
 function updateTotal(){
     const cost = document.getElementById('cost');
     const pos = document.getElementById('position');
@@ -67,10 +67,10 @@ function updateTotal(){
     var posSum = 0.00;
     userStocks.forEach(ticker => {
         const stock = stocksView[ticker];
-        costSum += parseFloat(stock.position);
+        costSum += parseFloat(stock.cost);
 
         const price = (stock.price || "0.00").toString();
-        const stockValue = computeCurrentValue(stock.shares, price);
+        const stockValue = computePosition(stock.shares, price);
         posSum += parseFloat(stockValue);
     });
     const label = costSum.toFixed(2);
