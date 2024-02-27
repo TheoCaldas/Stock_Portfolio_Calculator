@@ -21,7 +21,7 @@ export function computeCurrentValue(shares, marketPrice){
 export function computeProfitability(position, stockValue){
     const _position = parseFloat(position);
     const _stockValue = parseFloat(stockValue);
-    if (_position == 0 || _stockValue == 0) return "0,00";
+    if (_position == 0 || _stockValue == 0) return "0.00";
     if (_position < _stockValue)
         return plus(((_stockValue / _position) * 1.0).toFixed(2)).concat("%");
     else
@@ -32,8 +32,14 @@ export function computeProfitability(position, stockValue){
     Inputs and outputs are string values. */
 function plus(numberString){
     return (parseFloat(numberString) > 0.0) ? "+".concat(numberString) : numberString;
-}
+};
 
+export function formatNumber(number) {
+    const [integerPart, decimalPart] = number.split('.');
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const formattedNumber = formattedIntegerPart + ',' + decimalPart;
+    return formattedNumber;
+}
 
 /*  Validates user input format on the client-side.
     Returns undefined if all entries are in the correct format. 

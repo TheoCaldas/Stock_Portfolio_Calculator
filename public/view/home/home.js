@@ -1,5 +1,5 @@
 import { fetchStocks, fetchUserStocks } from '../../service/stockService.js';
-import { computeCurrentValue, computeProfitability, computeStockReturn} from '../../utils.js';
+import { computeCurrentValue, computeProfitability, computeStockReturn, formatNumber } from '../../utils.js';
 
 var stocksView = {};
 var userStocks = [];
@@ -49,11 +49,11 @@ function updateTable(){
             <tr>
                 <td>${ticker}</td>
                 <td>${stock.shares}</td> 
-                <td>${stock.position.replace('.', ',')}</td>
-                <td>${price.replace('.', ',')}</td>
-                <td>${stockValue.replace('.', ',')}</td>
-                <td>${stockReturn.replace('.', ',')}</td>
-                <td>${profitability.replace('.', ',')}</td>
+                <td>${formatNumber(stock.position)}</td>
+                <td>${formatNumber(price)}</td>
+                <td>${formatNumber(stockValue)}</td>
+                <td>${formatNumber(stockReturn)}</td>
+                <td>${formatNumber(profitability)}</td>
             </tr>
         `;
     });
@@ -61,26 +61,26 @@ function updateTable(){
 
 /*  Updates total position with user stocks */
 function updateTotal(){
-    const pos = document.getElementById('total');
-    const newPos = document.getElementById('newTotal');
-    var sumPos = 0.00;
-    var sumNewPos = 0.00;
+    const cost = document.getElementById('cost');
+    const pos = document.getElementById('position');
+    var costSum = 0.00;
+    var posSum = 0.00;
     userStocks.forEach(ticker => {
         const stock = stocksView[ticker];
-        sumPos += parseFloat(stock.position);
+        costSum += parseFloat(stock.position);
 
         const price = (stock.price || "0.00").toString();
         const stockValue = computeCurrentValue(stock.shares, price);
-        sumNewPos += parseFloat(stockValue);
+        posSum += parseFloat(stockValue);
     });
-    const label = sumPos.toFixed(2).replace('.', ',');
-    pos.innerHTML = `R$ ${label}`;
+    const label = costSum.toFixed(2);
+    cost.innerHTML = `R$ ${formatNumber(label)}`;
     
-    const label2 = sumNewPos.toFixed(2).replace('.', ',');
-    const prof = computeProfitability(sumPos, sumNewPos);
-    if (prof !== NaN)
-        newPos.innerHTML = `R$ ${label2} (${prof})`;
+    const label2 = posSum.toFixed(2);
+    const prof = computeProfitability(costSum, posSum);
+    if (prof != 0.0)
+        pos.innerHTML = `R$ ${formatNumber(label2)} (${formatNumber(prof)})`;
     else
-        newPos.innerHTML = `R$ ${label2}`;
+        pos.innerHTML = `R$ ${formatNumber(label2)}`;
 };
 

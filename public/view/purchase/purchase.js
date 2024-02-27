@@ -1,5 +1,5 @@
 import { postPurchase } from '../../service/purchaseService.js';
-import { validatePurchaseInput } from '../../utils.js';
+import { validatePurchaseInput, computeCurrentValue, formatNumber } from '../../utils.js';
 
 onload = () => {
     const button = document.getElementById('buy');
@@ -22,8 +22,11 @@ async function buyStock(){
             "pricePerShare": pricePerShare
         }
         try{
-            const purchased = await postPurchase(data);
-            if (purchased) window.location.href = '/home';
+            const total = computeCurrentValue(shares, pricePerShare);
+            if (confirm(`Total: R$ ${formatNumber(total)}`)){
+                const purchased = await postPurchase(data);
+                if (purchased) window.location.href = '/home';
+            }
         } catch (error){
             console.error(error);
         }
