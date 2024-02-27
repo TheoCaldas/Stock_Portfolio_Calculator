@@ -12,6 +12,19 @@ export async function fetchUserStocks(){
     }
 };
 
+/*  Returns fetched user stock by ticker from the server-side.
+    Catches http errors. */
+export async function fetchUserStock(ticker){
+    try {  
+        const res = await fetch(`/user/stocks/${ticker}`, {method: "GET"});
+        const data = await res.json();
+        if (!res.ok) return console.error(data.error);
+        return data;
+    } catch (error) {
+        // console.error("Error fetching stock:", error);
+    }
+};
+
 /*  Posts purchase to the server-side.
     Returns if succeed.
     Catches http erros. */
@@ -28,7 +41,6 @@ export async function postPurchase(reqData) {
             console.error(resData.error);
             return false;
         }
-        console.log(resData);
         return true;
         
     } catch (error) {
@@ -36,6 +48,29 @@ export async function postPurchase(reqData) {
         return false;
     }
 };
+
+/*  Updates purchase to the server-side.
+    Returns if succeed.
+    Catches http erros. */
+    export async function updatePurchase(reqData) {
+        try {  
+            const res = await fetch("/user/stocks", 
+            {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(reqData),
+            });
+            const resData = await res.json();
+            if (!res.ok){
+                console.error(resData.error);
+                return false;
+            }
+            return true;
+        } catch (error) {
+            console.error("Error updating purchase:", error);
+            return false;
+        }
+    };
 
 /*  Deletes all user stock data from the server-side.
     Catches http errors. */

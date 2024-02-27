@@ -1,4 +1,5 @@
-import { postPurchase } from '../../service/userStockService.js';
+import { fetchUserStock, postPurchase, updatePurchase } from '../../service/userStockService.js';
+import { tickerIsValid } from '../../service/stockService.js';
 import { validatePurchaseInput, computePosition, formatNumber } from '../../utils.js';
 
 onload = () => {
@@ -16,16 +17,33 @@ async function buyStock(){
     const errors = validatePurchaseInput(ticker, shares, pricePerShare);
     if (errors == undefined){
         // proceed with purchase. 
-        const data = {
-            "ticker": ticker,
-            "shares": shares,
-            "pricePerShare": pricePerShare
-        }
         try{
+            //check if ticker is valid
+            if (! await tickerIsValid(ticker)){
+                console.log("Invalid ticker!");
+                return;
+            }
+            
+            //compute final price
             const total = computePosition(shares, pricePerShare);
             if (confirm(`Total: R$ ${formatNumber(total)}`)){
-                const purchased = await postPurchase(data);
-                if (purchased) window.location.href = '/home';
+                const data = {
+                    "ticker": ticker,
+                    "shares": shares,
+                    "pricePerShare": pricePerShare
+                };
+
+                //check if user stock with ticker exists
+                const exists = await fetchUserStock(ticker);
+                if (exists != undefined){
+                    //stock is already a user stock
+                    const purchased = await updatePurchase(data);
+                    if (purchased) window.location.href = '/home';
+                }else{
+                    //stock should be a new user stock
+                    const purchased = await postPurchase(data);
+                    if (purchased) window.location.href = '/home';
+                }
             }
         } catch (error){
             console.error(error);

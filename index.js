@@ -2,7 +2,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { requestStock, parseStock } from './calculator.js'
-import { getUserStocks, getUserStock, createUserStock, deleteUserStocks } from './database.js';
+import { getUserStocks, getUserStock, createUserStock, deleteUserStocks, updateUserStock } from './database.js';
 
 // CONFIG
 const __filename = fileURLToPath(import.meta.url);
@@ -52,12 +52,13 @@ app.get('/user/stocks', async (req, res) => {
   }
 });
 
-app.get('/user/stocks/:id', async (req, res) => {
+app.get('/user/stocks/:ticker', async (req, res) => {
   try{
     const ticker = req.params.ticker;
     const stock = await getUserStock(ticker);
     res.status(200).send(stock);
   } catch(error){
+    console.error(error);
     res.status(404).json({error: `User stock of ticker ${ticker} not found!`});
   }
 });
@@ -69,15 +70,30 @@ app.post('/user/stocks', async (req, res) => {
     const pricePerShare = parseFloat(req.body.pricePerShare);
     const priceTotal = (shares * pricePerShare).toFixed(2);
 
-    //TODO: update stock if exists
-    //TODO: check valid ticker outside
-
-    const data = await requestStock(ticker);
-    parseStock(data);
     const createdStock = await createUserStock(ticker, shares, priceTotal);
     res.status(201).send(createdStock);
   } catch (error) {
-    res.status(404).json({error: "Ticker not found!"});
+    res.status(500).json({error: "Failed to connect to the server!"});
+  }
+});
+
+app.put('/user/stocks', async (req, res) => {
+  try{
+    const ticker = req.body.ticker;
+    const shares = parseFloat(req.body.shares);
+    const pricePerShare = parseFloat(req.body.pricePerShare);
+    const priceTotal = shares * pricePerShare;
+
+    //update 
+    const stock = await getUserStock(ticker);
+    const newShares = stock.shares + shares;
+    const newCost = (parseFloat(stock.cost) + priceTotal).toFixed(2);
+
+    const updated = await updateUserStock(ticker, newShares, newCost);
+    res.status(200).send(updated);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: "Failed to connect to the server!"});
   }
 });
 

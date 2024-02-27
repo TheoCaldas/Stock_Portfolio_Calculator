@@ -18,12 +18,17 @@ export async function getUserStocks() {
 };
 
 /*  Get single user stock by ticker.
-    Returns stock object. */
+    Returns stock object. 
+    Returns undefined if ticker not found.  */
 export async function getUserStock(ticker) {
-    const [rows] = await pool.query(
-        `SELECT * FROM portfolio
-        WHERE ticker = ?`, [ticker]);
-    return rows[0];
+    try{
+        const [rows] = await pool.query(
+            `SELECT * FROM portfolio
+            WHERE ticker = ?`, [ticker]);
+        return rows[0];
+    } catch (error){
+        return undefined;
+    }
 };
 
 /*  Create user stock (ticker should be unique).
@@ -33,6 +38,16 @@ export async function createUserStock(ticker, shares, cost) {
         `INSERT INTO portfolio (ticker, shares, cost)
         VALUES (?,?,?)`, [ticker, shares, cost]);
     return getUserStock(ticker);
+};
+
+/*  Update single user stock by ticker.
+    Returns if succeed. */
+export async function updateUserStock(ticker, shares, cost) {
+    const [result] = await pool.query(
+        `UPDATE portfolio
+        SET shares = ?, cost = ?
+        WHERE ticker = ?`, [shares, cost, ticker]);
+    return result.changedRows > 0;
 };
 
 /*  Delete all user stocks.
