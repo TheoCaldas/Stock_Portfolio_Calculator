@@ -1,4 +1,4 @@
-import { calculateCurrentValue, calculateProfitability, calculateStockReturn, fetchStocks, fetchUserStocks } from '../../controller/homeController.js';
+import { calculateCurrentValue, calculateStockReturn, calculateProfitability, fetchStocks, fetchUserStocks } from '../../controller/homeController.js';
 
 var stocksView = {};
 var userStocks = [];
