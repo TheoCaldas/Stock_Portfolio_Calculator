@@ -24,3 +24,25 @@ export function validatePurchaseInput(ticker, shares, pricePerShare){
     if (!errors.ticker && !errors.shares && !errors.pricePerShare) return;
     return errors;
 };
+
+/*  Posts purchase to the server-side.
+    Catches http erros. */
+export async function postPurchase(reqData) {
+    try {  
+        const res = await fetch("/buy", 
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(reqData),
+        });
+        const resData = await res.json();
+        if (!res.ok) return console.error(resData.error);
+        
+        console.log(resData);
+        //returns to home
+        window.location.href = '/home';
+        // const page = await fetch('/home', {method: "GET"});
+    } catch (error) {
+        console.error("Error posting purchase:", error);
+    }
+};

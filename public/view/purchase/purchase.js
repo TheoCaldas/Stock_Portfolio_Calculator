@@ -1,4 +1,4 @@
-import { validatePurchaseInput } from './purchaseController.js';
+import { validatePurchaseInput, postPurchase } from '../../controller/purchaseController.js';
 
 onload = () => {
     const button = document.getElementById('buy');
@@ -27,21 +27,3 @@ async function buyStock(){
         if (errors.pricePerShare) console.log("Price per share should be a positive decimal number!");
     }
 };
-
-/*  Posts purchase to the server-side.
-    Catches http erros. */
-async function postPurchase(reqData) {
-    try {  
-      const res = await fetch("/buy", 
-      {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(reqData),
-      });
-      const resData = await res.json();
-      if (!res.ok) console.error(resData.error);
-      else console.log(resData);
-    } catch (error) {
-      console.error("Error posting purchase:", error);
-    }
-  }

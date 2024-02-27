@@ -10,6 +10,10 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// app.set('view engine', 'ejs');
+// app.set('views', __dirname + '/public/view');
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -21,7 +25,23 @@ var stocks = [];
 // REQUESTS
 
 app.get('/', async (req, res) => {
-  res.sendFile(__dirname + '/public/view/home.html')
+  res.sendFile(__dirname + '/public/view/home/home.html');
+  // res.render('home');
+});
+
+app.get('/home', async (req, res) => {
+  res.sendFile(__dirname + '/public/view/home/home.html', {});
+  // res.render('home', {
+  //   stocks: stocks
+  // });
+});
+
+app.get('/stocks', async (req, res) => {
+  try{
+    res.status(201).send(stocks);
+  } catch(error){
+    res.status(404).json({error: "Stocks not found!"});
+  }
 });
 
 app.post('/buy', async (req, res) => {
@@ -48,7 +68,7 @@ app.post('/buy', async (req, res) => {
 });
 
 app.get('/purchase', async (req, res) => {
-  res.sendFile(__dirname + '/public/view/purchase.html')
+  res.sendFile(__dirname + '/public/view/purchase/purchase.html')
 });
 
 app.listen(port, () => {
