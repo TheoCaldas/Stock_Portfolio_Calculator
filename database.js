@@ -10,13 +10,15 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE,
 }).promise();
 
-// console.log('Connected!');
-
+/*  Get all user stocks.
+    Returns stock array. */
 export async function getUserStocks() {
     const [rows] = await pool.query("SELECT * FROM portfolio");
     return rows;
 };
 
+/*  Get single user stock by ticker.
+    Returns stock object. */
 export async function getUserStock(ticker) {
     const [rows] = await pool.query(
         `SELECT * FROM portfolio
@@ -24,6 +26,8 @@ export async function getUserStock(ticker) {
     return rows[0];
 };
 
+/*  Create user stock (ticker should be unique).
+    Returns created stock if succeed.  */
 export async function createUserStock(ticker, shares, cost) {
     const [result] = await pool.query(
         `INSERT INTO portfolio (ticker, shares, cost)
@@ -31,19 +35,18 @@ export async function createUserStock(ticker, shares, cost) {
     return getUserStock(ticker);
 };
 
+/*  Delete all user stocks.
+    Returns if succeed. */
+export async function deleteUserStocks() {
+    const [result] = await pool.query("DELETE FROM portfolio");
+    return result.affectedRows > 0;
+};
+
+/*  Delete single user stock by ticker.
+    Returns if succeed. */
 export async function deleteUserStock(ticker) {
     const [result] = await pool.query(
         `DELETE FROM portfolio
         WHERE ticker = ?`, [ticker]);
     return result.affectedRows > 0;
 };
-
-// var result;
-// result = await deleteUserStock("PETR4.SA");
-// console.log(result);
-// result = await createUserStock("PETR4.SA", "10", "14.20");
-// console.log(result);
-// const userStocks = await getUserStocks();
-// console.log(userStocks);
-// const userStock = await getUserStock("PETR4.SA");
-// console.log(userStock);

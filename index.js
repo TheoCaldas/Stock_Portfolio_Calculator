@@ -2,7 +2,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { requestStock, parseStock } from './calculator.js'
-import { getUserStocks, getUserStock, createUserStock, deleteUserStock } from './database.js';
+import { getUserStocks, getUserStock, createUserStock, deleteUserStocks } from './database.js';
 
 // CONFIG
 const __filename = fileURLToPath(import.meta.url);
@@ -48,7 +48,7 @@ app.get('/user/stocks', async (req, res) => {
     const stocks = await getUserStocks();
     res.status(200).send(stocks);
   } catch(error){
-    res.status(404).json({error: "User stocks not found!"});
+    res.status(500).json({error: "Failed to connect to the server!"});
   }
 });
 
@@ -78,5 +78,14 @@ app.post('/user/stocks', async (req, res) => {
     res.status(201).send(createdStock);
   } catch (error) {
     res.status(404).json({error: "Ticker not found!"});
+  }
+});
+
+app.delete('/user/stocks', async (req, res) => {
+  try{
+    const deleted = await deleteUserStocks();
+    res.status(200).send(deleted);
+  } catch (error) {
+    res.status(500).json({error: "Failed to connect to the server!"});
   }
 });

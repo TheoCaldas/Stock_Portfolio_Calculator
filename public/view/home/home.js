@@ -1,4 +1,5 @@
-import { fetchStocks, fetchUserStocks } from '../../service/stockService.js';
+import { fetchUserStocks, deleteUserStocks } from '../../service/userStockService.js';
+import { fetchPrices } from '../../service/stockService.js';
 import { computePosition, computeProfitability, computeProfit, formatNumber } from '../../utils.js';
 
 var stocksView = {};
@@ -7,10 +8,11 @@ var baseTableHTML = "";
 
 onload = () => {
     baseTableHTML = document.getElementById("stocks").innerHTML;
+    document.getElementById("delete").onclick = deleteStocks;
     fetchData();
 }
 
-/*  Fetches user stocks, updating user stock data. */
+/*  Fetches user stocks, updating local user stock data and view. */
 function fetchData(){
     fetchUserStocks().then((stocks) => {
         stocks.forEach(stock => {
@@ -22,7 +24,7 @@ function fetchData(){
         });
         updateView();
 
-        fetchStocks(stocks, ({ticker, price}) => {
+        fetchPrices(stocks, ({ticker, price}) => {
             stocksView[ticker]["price"] = price;
             updateView();
         });
@@ -84,3 +86,11 @@ function updateTotal(){
         pos.innerHTML = `R$ ${formatNumber(label2)}`;
 };
 
+/*  Deletes all stock data and updates view */
+async function deleteStocks() {
+    if (await deleteUserStocks()){
+        stocksView = {};
+        userStocks = [];
+        updateView();
+    }
+}

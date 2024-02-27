@@ -1,4 +1,4 @@
-import { postPurchase } from '../../service/purchaseService.js';
+import { postPurchase } from '../../service/userStockService.js';
 import { validatePurchaseInput, computePosition, formatNumber } from '../../utils.js';
 
 onload = () => {
@@ -9,7 +9,7 @@ onload = () => {
 /*  Gets purchase user input on the client-side.
     Checks if input is valid and sends it to the server. */
 async function buyStock(){
-    const ticker = document.getElementById("ticker").value;
+    const ticker = document.getElementById("ticker").value.toUpperCase();
     const shares = document.getElementById("shares").value;
     const pricePerShare = document.getElementById("price").value;
 
