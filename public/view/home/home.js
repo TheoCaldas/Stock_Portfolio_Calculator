@@ -1,4 +1,4 @@
-import { fetchStocks, fetchUserStocks } from '../../controller/homeController.js';
+import { calculateCurrentValue, calculateProfitability, calculateStockReturn, fetchStocks, fetchUserStocks } from '../../controller/homeController.js';
 
 var stocksView = {};
 var userStocks = [];
@@ -40,12 +40,19 @@ function updateTable(){
     table.innerHTML = baseTableHTML;
     userStocks.forEach(ticker => {
         const stock = stocksView[ticker];
+        const price = (stock.price || "0.00").toString();
+        const stockReturn = calculateStockReturn(stock.position, stock.shares, price);
+        const stockValue = calculateCurrentValue(stock.shares, price);
+        const profitability = calculateProfitability(stock.position, stockValue);
         table.innerHTML += `
             <tr>
                 <td>${ticker}</td>
                 <td>${stock.shares}</td> 
-                <td>${stock.position}</td>
-                <td>${stock.price || "0,00"}</td>
+                <td>${stock.position.replace('.', ',')}</td>
+                <td>${price.replace('.', ',')}</td>
+                <td>${stockValue.replace('.', ',')}</td>
+                <td>${stockReturn.replace('.', ',')}</td>
+                <td>${profitability.replace('.', ',')}</td>
             </tr>
         `;
     });
@@ -54,12 +61,25 @@ function updateTable(){
 /*  Updates total position with user stocks */
 function updateTotal(){
     const pos = document.getElementById('total');
-    var sum = 0.00;
+    const newPos = document.getElementById('newTotal');
+    var sumPos = 0.00;
+    var sumNewPos = 0.00;
     userStocks.forEach(ticker => {
         const stock = stocksView[ticker];
-        sum += parseFloat(stock.position);
+        sumPos += parseFloat(stock.position);
+
+        const price = (stock.price || "0.00").toString();
+        const stockValue = calculateCurrentValue(stock.shares, price);
+        sumNewPos += parseFloat(stockValue);
     });
-    const label = sum.toFixed(2).replace('.', ',');
+    const label = sumPos.toFixed(2).replace('.', ',');
     pos.innerHTML = `R$ ${label}`;
-}
+    
+    const label2 = sumNewPos.toFixed(2).replace('.', ',');
+    const prof = calculateProfitability(sumPos, sumNewPos);
+    if (prof !== NaN)
+        newPos.innerHTML = `R$ ${label2} (${prof})`;
+    else
+        newPos.innerHTML = `R$ ${label2}`;
+};
 
