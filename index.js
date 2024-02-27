@@ -36,11 +36,22 @@ app.get('/home', async (req, res) => {
   // });
 });
 
-app.get('/stocks', async (req, res) => {
+app.get('/user/stocks', async (req, res) => {
   try{
     res.status(201).send(stocks);
   } catch(error){
-    res.status(404).json({error: "Stocks not found!"});
+    res.status(404).json({error: "User stocks not found!"});
+  }
+});
+
+app.get('/stock/:ticker', async (req, res) => {
+  try{
+    const ticker = req.params.ticker;
+    const data = await requestStock(ticker);
+    const stock = parseStock(data);
+    res.status(201).send(stock);
+  } catch(error){
+    res.status(404).json({error: "Stock not found!"});
   }
 });
 
