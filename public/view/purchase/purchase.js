@@ -1,4 +1,4 @@
-import { validatePurchaseInput, postPurchase } from '../../controller/purchaseController.js';
+import { validatePurchaseInput, postPurchase } from '../../service/purchaseService.js';
 
 onload = () => {
     const button = document.getElementById('buy');
@@ -20,7 +20,12 @@ async function buyStock(){
             "shares": shares,
             "pricePerShare": pricePerShare
         }
-        await postPurchase(data);
+        try{
+            const purchased = await postPurchase(data);
+            if (purchased) window.location.href = '/home';
+        } catch (error){
+            console.error(error);
+        }
     } else{
         if (errors.ticker) console.log("Ticker should not be empty!");
         if (errors.shares) console.log("Shares should be a positive number!");

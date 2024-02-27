@@ -1,4 +1,5 @@
-import { calculateCurrentValue, calculateStockReturn, calculateProfitability, fetchStocks, fetchUserStocks } from '../../controller/homeController.js';
+import { fetchStocks, fetchUserStocks } from '../../service/homeService.js';
+import { computeCurrentValue, computeProfitability, computeStockReturn} from '../../utils.js';
 
 var stocksView = {};
 var userStocks = [];
@@ -41,9 +42,9 @@ function updateTable(){
     userStocks.forEach(ticker => {
         const stock = stocksView[ticker];
         const price = (stock.price || "0.00").toString();
-        const stockReturn = calculateStockReturn(stock.position, stock.shares, price);
-        const stockValue = calculateCurrentValue(stock.shares, price);
-        const profitability = calculateProfitability(stock.position, stockValue);
+        const stockReturn = computeStockReturn(stock.position, stock.shares, price);
+        const stockValue = computeCurrentValue(stock.shares, price);
+        const profitability = computeProfitability(stock.position, stockValue);
         table.innerHTML += `
             <tr>
                 <td>${ticker}</td>
@@ -69,14 +70,14 @@ function updateTotal(){
         sumPos += parseFloat(stock.position);
 
         const price = (stock.price || "0.00").toString();
-        const stockValue = calculateCurrentValue(stock.shares, price);
+        const stockValue = computeCurrentValue(stock.shares, price);
         sumNewPos += parseFloat(stockValue);
     });
     const label = sumPos.toFixed(2).replace('.', ',');
     pos.innerHTML = `R$ ${label}`;
     
     const label2 = sumNewPos.toFixed(2).replace('.', ',');
-    const prof = calculateProfitability(sumPos, sumNewPos);
+    const prof = computeProfitability(sumPos, sumNewPos);
     if (prof !== NaN)
         newPos.innerHTML = `R$ ${label2} (${prof})`;
     else

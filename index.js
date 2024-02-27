@@ -18,6 +18,10 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
+app.listen(port, () => {
+  console.log(`App listening at http://localhost:${port}`);
+});
+
 // GLOBAL
 
 var stocks = [];
@@ -26,14 +30,10 @@ var stocks = [];
 
 app.get('/', async (req, res) => {
   res.sendFile(__dirname + '/public/view/home/home.html');
-  // res.render('home');
 });
 
 app.get('/home', async (req, res) => {
-  res.sendFile(__dirname + '/public/view/home/home.html', {});
-  // res.render('home', {
-  //   stocks: stocks
-  // });
+  res.sendFile(__dirname + '/public/view/home/home.html');
 });
 
 app.get('/user/stocks', async (req, res) => {
@@ -80,8 +80,4 @@ app.post('/buy', async (req, res) => {
 
 app.get('/purchase', async (req, res) => {
   res.sendFile(__dirname + '/public/view/purchase/purchase.html')
-});
-
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
 });
