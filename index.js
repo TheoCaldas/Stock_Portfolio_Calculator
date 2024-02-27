@@ -1,7 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { requestStock, parseStock } from './public/calculator.js'
+import { requestStock, parseStock } from './calculator.js'
 import { UserStock } from './model/userStock.js';
 
 // CONFIG

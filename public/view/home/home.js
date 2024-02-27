@@ -1,4 +1,4 @@
-import { fetchStocks, fetchUserStocks } from '../../service/homeService.js';
+import { fetchStocks, fetchUserStocks } from '../../service/stockService.js';
 import { computeCurrentValue, computeProfitability, computeStockReturn} from '../../utils.js';
 
 var stocksView = {};

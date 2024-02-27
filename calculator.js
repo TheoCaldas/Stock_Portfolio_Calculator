@@ -1,4 +1,4 @@
-import { Stock } from '../model/stock.js'
+import { Stock } from './model/stock.js'
 
 /*  Requests a stock by ticker on the server-side. Uses Yahoo Finance API.
     Returns json object if succeeds. 

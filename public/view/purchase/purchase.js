@@ -1,4 +1,5 @@
-import { validatePurchaseInput, postPurchase } from '../../service/purchaseService.js';
+import { postPurchase } from '../../service/purchaseService.js';
+import { validatePurchaseInput } from '../../utils.js';
 
 onload = () => {
     const button = document.getElementById('buy');
