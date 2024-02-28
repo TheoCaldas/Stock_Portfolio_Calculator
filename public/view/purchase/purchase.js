@@ -24,6 +24,12 @@ onload = () => {
         document.getElementById("shares"),
         document.getElementById("price")
     ]);
+
+    //indicate formatted price
+    document.getElementById('price').oninput = (event) => {
+        const format = formatNumber(parseFloat(event.target.value).toFixed(2));
+        document.getElementById('priceInd').innerHTML = (format) ? "R$ " + format : ""; 
+    }
 }
 
 /*  Checks purchase user input on the client-side. */
@@ -34,7 +40,7 @@ async function buyStock(){
 
     const ticker = tickerInput.value.toUpperCase();
     const shares = sharesInput.value;
-    const pricePerShare = priceInput.value;
+    const pricePerShare = parseFloat(priceInput.value).toFixed(2);
 
     const errors = validatePurchaseInput(ticker, shares, pricePerShare);
     if (errors == undefined){

@@ -40,6 +40,7 @@ export function formatNumber(number) {
     const [integerPart, decimalPart] = number.split('.');
     const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     const formattedNumber = formattedIntegerPart + ',' + decimalPart;
+    if (formattedIntegerPart == undefined || decimalPart == undefined) return false;
     return formattedNumber;
 }
 
@@ -49,7 +50,7 @@ export function formatNumber(number) {
 
     ticker: must be a non-empty string.
     shares: must be a non-empty string representing a positive integer, such as '123'. 
-    pricePerShare: must be a non-empty string representing a positive money value, such as '10.123,42'. */
+    pricePerShare: must be a non-empty string representing a positive money value, such as '10123.42'. */
 export function validatePurchaseInput(ticker, shares, pricePerShare){
     var errors = {
         "ticker": false,
