@@ -9,7 +9,9 @@ var priceTimer;
 
 onload = () => {
     baseTableHTML = document.getElementById("stocks").innerHTML;
-    document.getElementById("delete").onclick = deleteStocks;
+    const deleteBtn = document.getElementById("delete");
+    deleteBtn.onclick = deleteStocks;
+    deleteBtn.disabled = true;
     document.getElementById("purchase").onclick = () => {window.location.href = "/purchase";};
     fetchData();
     //Updates price every 10 seconds if trading period
@@ -25,6 +27,7 @@ function fetchData(){
                 "cost": stock.cost
             };
             userStocks.push(stock.ticker);
+            document.getElementById("delete").disabled = false;
         });
         updateView();
         updatePrices();
@@ -101,5 +104,7 @@ async function deleteStocks() {
         stocksView = {};
         userStocks = [];
         updateView();
+        document.getElementById("delete").disabled = true;
     }
 }
+

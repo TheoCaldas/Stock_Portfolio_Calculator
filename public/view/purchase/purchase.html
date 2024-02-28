@@ -29,8 +29,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; /* Set flex-direction to column */
-    text-align: center; /* Optional: Center the content horizontally */
+    flex-direction: column;
+    text-align: center;
 ">
             <button id="collapseControl" type="button" data-bs-toggle="collapse" data-bs-target="#bottom" style="display: none;">collapse</button> 
             <div class="input-group ">
@@ -67,5 +67,23 @@
             </div>
         </div>
     </div>
+    <button id="modalControl" type="button" data-bs-toggle="modal" data-bs-target="#modal"></button>
+    <div class="modal" id="modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Verifique sua compra</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div id="modalBody" class="modal-body" style="font-size: 15px;">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="modalConfirm">Confirmar</button>
+            </div>
+      
+          </div>
+        </div>
+      </div>
 </body>
 </html>
