@@ -5,7 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "21.6.2"
   },
   "author": "Theo Caldas",
   "license": "ISC",
