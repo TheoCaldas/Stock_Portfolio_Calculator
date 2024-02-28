@@ -7,6 +7,7 @@ router.get('/user/stocks', async (req, res) => {
       const stocks = await getUserStocks();
       res.status(200).send(stocks);
     } catch(error){
+      console.error(error);
       res.status(500).json({error: "Failed to connect to the server!"});
     }
 });
@@ -32,6 +33,7 @@ router.post('/user/stocks', async (req, res) => {
       const createdStock = await createUserStock(ticker, shares, priceTotal);
       res.status(201).send(createdStock);
     } catch (error) {
+      console.error(error);
       res.status(500).json({error: "Failed to connect to the server!"});
     }
 });
@@ -61,6 +63,7 @@ router.delete('/user/stocks', async (req, res) => {
       const deleted = await deleteUserStocks();
       res.status(200).send(deleted);
     } catch (error) {
+      console.error(error);
       res.status(500).json({error: "Failed to connect to the server!"});
     }
 });
