@@ -3,12 +3,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log("Trying to connect db");
+
 const pool = mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
 }).promise();
+
+console.log("Db connected!");
 
 /*  Get all user stocks.
     Returns stock array. */
