@@ -10,6 +10,7 @@ var priceTimer;
 onload = () => {
     baseTableHTML = document.getElementById("stocks").innerHTML;
     document.getElementById("delete").onclick = deleteStocks;
+    document.getElementById("purchase").onclick = () => {window.location.href = "/purchase";};
     fetchData();
     //Updates price every 10 seconds if trading period
     priceTimer = setInterval(updatePrices, 10000);
@@ -59,9 +60,9 @@ function updateTable(){
             <tr>
                 <td>${ticker}</td>
                 <td>${stock.shares}</td> 
-                <td>${formatNumber(stock.cost)}</td>
-                <td>${formatNumber(price)}</td>
-                <td>${formatNumber(stockValue)}</td>
+                <td>R$ ${formatNumber(stock.cost)}</td>
+                <td>R$ ${formatNumber(price)}</td>
+                <td>R$ ${formatNumber(stockValue)}</td>
                 <td>${formatNumber(stockReturn)}</td>
                 <td>${formatNumber(profitability)}</td>
             </tr>
@@ -89,7 +90,7 @@ function updateTotal(){
     const label2 = posSum.toFixed(2);
     const prof = computeProfitability(costSum, posSum);
     if (prof != 0.0)
-        pos.innerHTML = `R$ ${formatNumber(label2)} (${formatNumber(prof)})`;
+        pos.innerHTML = `R$ ${formatNumber(label2)} <text style="font-size:medium;">(${formatNumber(prof)})</text>`;
     else
         pos.innerHTML = `R$ ${formatNumber(label2)}`;
 };
