@@ -1,15 +1,18 @@
 import { fetchUserStocks, deleteUserStocks } from '../../service/userStockService.js';
 import { fetchPrices } from '../../service/stockService.js';
-import { computePosition, computeProfitability, computeProfit, formatNumber } from '../../utils.js';
+import { computePosition, computeProfitability, computeProfit, formatNumber, isTradingPeriod } from '../../utils.js';
 
 var stocksView = {};
 var userStocks = [];
 var baseTableHTML = "";
+var priceTimer;
 
 onload = () => {
     baseTableHTML = document.getElementById("stocks").innerHTML;
     document.getElementById("delete").onclick = deleteStocks;
     fetchData();
+    //Updates price every 10 seconds if trading period
+    priceTimer = setInterval(updatePrices, 10000);
 }
 
 /*  Fetches user stocks, updating local user stock data and view. */
@@ -23,11 +26,16 @@ function fetchData(){
             userStocks.push(stock.ticker);
         });
         updateView();
+        updatePrices();
+    });
+}
 
-        fetchPrices(stocks, ({ticker, price}) => {
-            stocksView[ticker]["price"] = price;
-            updateView();
-        });
+/*  Fecthes price data and updates view if is trading period. */
+function updatePrices(){
+    if (!isTradingPeriod()) clearInterval(priceTimer);
+    fetchPrices(userStocks, ({ticker, price}) => {
+        stocksView[ticker]["price"] = price;
+        updateView();
     });
 }
 

@@ -69,3 +69,11 @@ export function validatePurchaseInput(ticker, shares, pricePerShare){
     if (!errors.ticker && !errors.shares && !errors.pricePerShare) return;
     return errors;
 };
+
+/*  Returns if current time is between 9:30(am) and 18:30(pm). */
+export function isTradingPeriod(){
+    const now = new Date();
+    const startTime = new Date().setHours(9, 30, 0, 0);
+    const endTime = new Date().setHours(18, 30, 0, 0);
+    return now >= startTime && now <= endTime;
+}

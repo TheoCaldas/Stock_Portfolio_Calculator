@@ -1,10 +1,9 @@
 /*  Fetches stock data from the server-side.
-    For every stock object in array, a callback is used for passing the price data. 
+    For every ticker in array, a callback is used for passing the price data. 
     Catches http errors. */
-export async function fetchPrices(stocks, callback){
+export async function fetchPrices(tickers, callback){
     try {  
-        await Promise.all(stocks.map(async (stock) => {
-            const ticker = stock.ticker;
+        await Promise.all(tickers.map(async (ticker) => {
             const res = await fetch(`/stock/${ticker}`, {method: "GET"});
             const data = await res.json();
             if (!res.ok) return console.error(data.error);
