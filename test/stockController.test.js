@@ -1,4 +1,4 @@
-import { requestStock, parseStock } from "../calculator.js";
+import { requestStock, parseStock } from "../controller/stockController.js";
 import { describe, it, expect } from "vitest";
 import { readFileSync } from 'fs';
 
