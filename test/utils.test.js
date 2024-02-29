@@ -1,4 +1,4 @@
-import { validatePurchaseInput } from "../public/utils.js";
+import { validatePurchaseInput } from "../src/public/utils.js";
 import { describe, it, expect } from "vitest";
 
 describe('validatePurchaseInput', () => {
