@@ -8,9 +8,17 @@ Se estiver em horário de pregão (entre 9:30 e 18:30) o valor de preço, para c
 <br><br>
 O usuário pode deletar suas ações ou comprar uma nova. Para a última, informa-se o ticker, a quantidade de ações e um preço unitário (arbitrário). O usuário deve entrar com dados válidos. Depois de exibir o valor final da compra, e confirmando os dados, a carteira é atualizada com as novas ações. 
 
+## Índice 
+
+* [Tecnologias](#Tecnologias)
+* [Desenvolvimento](#Desenvolvimento)
+* [Próximos Passos](#Próximos-Passos)
+* [Como Acessar](#Como-acessar)
+* [Como Executar Localmente](#Como-Executar-Localmente)
+
 ## Tecnologias
 
-O projeto foi desenvolvido em Node.js/Express e utiliza a REST API da Yahoo Finance para atualizar o valor das ações em tempo real. O banco de dados foi implementado através de MySQL. As páginas html utilizam Bootstrap para componentes visuais customizados.
+O projeto foi desenvolvido em Node.js/Express e utiliza a REST API da Yahoo Finance para atualizar o valor das ações em tempo real. O banco de dados foi implementado através de MySQL, e a comunicação entre cliente e servidor é realizada por uma API RESTful. As páginas html utilizam Bootstrap para componentes visuais customizados.
 
 ## Desenvolvimento
 
@@ -38,7 +46,7 @@ Para construir uma solução ainda mais completa, penso na adição de algumas f
 - Conversão de moedas para tickers estrangeiros
 - Download da tabela de carteira para arquivo .csv
 
-## Como acessar
+## Como Acessar
 
 Você pode acessar o web app diretamente pelo link <br>
 
@@ -47,7 +55,7 @@ https://stock-portfolio-calculator-2.onrender.com
 <br>
 As páginas podem demorar para carregar, mediante performance do serviço de hospedagem gratuito.
 
-## Como executar localmente
+## Como Executar Localmente
 
 Alternativamente, você pode clonar este repositório e executar o programa em sua máquina local. Contudo, é preciso ter Node.js e MySQL instalados.
 <br><br>
